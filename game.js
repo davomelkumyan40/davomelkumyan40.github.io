@@ -1,4 +1,12 @@
 (function () {
+
+    [...document.querySelectorAll(".container, .background, #bird")].forEach((e, i, a) => {
+        e.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+        });
+    });
+
+
     class Pipe {
         constructor(elem) {
             this.pipeY = 85;
@@ -22,51 +30,65 @@
         }
 
     }
+    const birdElem = document.querySelector("#bird");
+    const bgImages = [...document.querySelectorAll(".bgImg")];
+    const grounds = [...document.querySelectorAll(".ground")];
+    const headstone = document.querySelector("#headstone");
+    const pipeList = [...document.querySelectorAll(".pair")].map((p) => {
+        return new Pipe(p);
+    });
+    const debugWindow = document.querySelector("#debugWindow");
+    const groundHeight = 170;
+    const screen = { height: 720, width: 480 };
+    const rand = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+    let gameIsOver = false;
+    let gameStarted = false;
+    let threadId = -1;
+    let score = 0;
+    let coins = 0;
+    let isDebugMode = true;
 
+    function Bird() {
+        this.y = 0;
+        this.angle = 0;
+        this.inertia = 0;
+        this.fallRatio = -9;
+        this.fallDistance = 13;
+        this.isFalling = false;
+        this.speed = 2;
 
-    class Bird {
-        constructor() {
-            this.y = 0;
-            this.angle = 0;
-            this.inertia = 0;
-            this.fallRatio = -9;
-            this.fallDistance = 13;
-            this.isFalling = false;
-            this.speed = 2;
-        }
-
-        bind(screenObj) {
+        this.bind = (screenObj) => {
             this.y = screenObj.height * 48 / 100;
         }
 
-        calculatePhsycs() {
+        this.calculatePhsycs = () => {
             if (this.isFalling)
                 this.inertia += 0.5;
             else
                 this.inertia = 0;
         }
 
-        fallDown() {
+        this.fallDown = () => {
             let totalFallDistance = (this.fallDistance + this.inertia);
             if (totalFallDistance)
-                this.y -= totalFallDistance / 2;
+                this.y -= totalFallDistance;
         }
 
-        flyUp() {
+        this.flyUp = () => {
             this.y += 110;
         }
 
-        startFalling() {
+        this.startFalling = () => {
             this.isFalling = true;
             this.fallDistance = 12;
         }
 
-        stopFalling() {
+        this.stopFalling = () => {
             this.fallDistance = 0;
             this.isFalling = false;
         }
 
-        isDead() {
+        this.isDead = () => {
             if (this.y <= groundHeight) {
                 this.y = groundHeight;
                 this.y -= this.inertia + this.fallRatio;
@@ -79,32 +101,8 @@
             return false;
         }
     }
-
-
-    const birdElem = document.querySelector("#bird");
-    const bgImages = [...document.querySelectorAll(".bgImg")];
-    const grounds = [...document.querySelectorAll(".ground")];
-    const headstone = document.querySelector("#headstone");
-    const debugOverlay = document.querySelector(".dContainer");
-    const pipeList = [...document.querySelectorAll(".pair")].map((p) => {
-        return new Pipe(p);
-    });
-    const debugWindow = document.querySelector("#debugWindow");
-    const groundHeight = 170;
-    const screen = { height: 720, width: 480 };
-    const rand = (min, max) => Math.floor(Math.random() * (max - min)) + min;
-    let debugProps = [];
-    let gameIsOver = false;
-    let gameStarted = false;
-    let threadId = -1;
-    let keyPressed = undefined;
-    let score = 0;
-    let coins = 0;
-    let isDebugMode = true;
-    let pThreadId = -1;
     const bird = new Bird();
     bird.bind(screen);
-
 
 
     pipeList.forEach((p, i) => {
@@ -145,22 +143,6 @@
         birdElem.classList.add("floatBird");
     }
 
-    function debugModeToggle() {
-        isDebugMode = !isDebugMode;
-        birdElem.classList.toggle("debugMode");
-        debugWindow.classList.toggle("debugOverlay");
-        pipePairs.forEach((e, i, a) => {
-            e.childNodes.forEach((e, i, a) => e.classList && e.classList.toggle("debugMode"));
-        });
-    }
-
-    // //TODO test remove in end
-    document.querySelector(".window").addEventListener("contextmenu", () => {
-        stopGame();
-        resetGame();
-        render();
-    });
-
     function render() {
         birdElem.style.bottom = `${bird.y}px`;
     }
@@ -169,33 +151,41 @@
         render();
     }, 0);
 
-    window.addEventListener("click", function (e) {
+    function gameHandler(e) {
         if (!gameIsOver) {
             bird.stopFalling();
             birdElem.style.transition = "all 0.25s";
-            birdElem.classList.add("upAngle");
             birdElem.classList.remove("downAngle");
+            birdElem.offsetWidth;
+            birdElem.classList.add("upAngle");
             bird.flyUp();
             if (!gameStarted) {
                 birdElem.classList.remove("floatBird");
+                birdElem.offsetWidth;
                 threadId = setInterval(() => {
                     if (!gameIsOver) {
                         bird.calculatePhsycs();
-                        bird.fallDown();
                         bird.fallDown();
                         gameIsOver = bird.isDead();
                     } else stopGame();
                 }, 20);
                 gameStarted = true;
             }
+        } else {
+            stopGame();
+            resetGame();
+            render();
         }
-    });
+    }
+
+    window.addEventListener("touchstart", gameHandler);
 
     birdElem.addEventListener("transitionend", function () {
         this.style.transition = "all 0.1s";
         if (gameStarted) {
             bird.startFalling();
             birdElem.classList.remove("upAngle");
+            birdElem.offsetWidth;
             birdElem.classList.add("downAngle");
         }
     });

@@ -271,7 +271,7 @@ body {
     }
 }
 
-.headstone {
+#headstone {
     position: absolute;
     left: 20%;
     bottom: 85px;
