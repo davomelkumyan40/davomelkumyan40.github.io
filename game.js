@@ -3,6 +3,7 @@
         constructor(elem) {
             this.pipeY = 85;
             this.elem = elem;
+            this.id = -1;
         }
 
         randomize() {
@@ -14,7 +15,7 @@
         }
 
         pipeReset() {
-            pipeRand();
+            this.randomize();
             this.elem.classList.remove("pipeMoveing");
             void this.elem.offsetWidth; // resets animation
             this.elem.classList.add("pipeMoveing");
@@ -71,7 +72,7 @@
                 this.y -= this.inertia + this.fallRatio;
                 this.fallRatio = 0;
                 if (this.y <= groundHeight - 20) {
-                    headstone.classList.add("headstoneMoveUp");
+                    headstone.classList.add("headstoneMoveUp"); // TODO
                 }
                 return true;
             }
@@ -100,38 +101,34 @@
     let score = 0;
     let coins = 0;
     let isDebugMode = true;
+    let pThreadId = -1;
+    const bird = new Bird();
+    bird.bind(screen);
+
+
 
     pipeList.forEach((p, i) => {
         p.elem.onanimationstart = () => p.randomize();
+        p.elem.onanimationiteration = () => p.randomize();
+        p.elem.onanimationend = () => p.pipeReset();
+        p.id = setTimeout(() => p.move(), (i + 1) * 1000);
     });
-
-
-    pipeList.forEach((p, i) => {
-
-        p.onanimationiteration = () => p.randomize();
-        p.onanimationend = () => p.pipeReset();
-        setTimeout(() => p.move(p), (i + 1) * 1000);
-    });
-
-
-    const bird = new Bird();
-    bird.bind(screen);
 
     function stopGame() {
         clearInterval(threadId);
         gameStarted = false;
         bgImages.forEach((e) => e.classList.add("bgPauseAnim"));
         grounds.forEach((e) => e.classList.add("groundPauseAnim"));
+        pipeList.forEach((p) => p.elem.classList.add("pipePause"))
         birdElem.classList.remove("floatBird");
         birdElem.style.backgroundImage = "url('./Assets/bird_noanim.png')";
     }
 
     function resetGame() {
         headstone.classList.remove("headstoneMoveUp");
-        // birdElem.classList.remove("upAngle");
+        birdElem.classList.remove("upAngle");
         birdElem.classList.remove("downAngle");
         birdElem.style.backgroundImage = "url('./Assets/bird.gif')";
-        bird = new Bird();
         bird.bind(screen);
         gameIsOver = false;
         bgImages.forEach((e) => {
@@ -139,6 +136,11 @@
         });
         grounds.forEach((e) => {
             e.classList.remove("groundPauseAnim");
+        });
+        pipeList.forEach((p, i) => {
+            p.pipeReset();
+            clearInterval(p.id);
+            setTimeout(() => p.move(), (i + 1) * 1000);
         });
         birdElem.classList.add("floatBird");
     }
@@ -152,8 +154,8 @@
         });
     }
 
-    //TODO test remove in end
-    document.querySelector(".window").addEventListener("click", () => {
+    // //TODO test remove in end
+    document.querySelector(".window").addEventListener("contextmenu", () => {
         stopGame();
         resetGame();
         render();
@@ -161,67 +163,31 @@
 
     function render() {
         birdElem.style.bottom = `${bird.y}px`;
-        if (isDebugMode) {
-            debugOverlay.innerHTML = "";
-            for (let i = 0; i < debugProps.length; i++) {
-                let p = document.createElement("p");
-                let tn = document.createTextNode(debugProps[i]);
-                p.appendChild(tn);
-                debugOverlay.appendChild(p);
-            }
-        }
     }
 
     setInterval(() => {
-        if (isDebugMode) {
-            debugProps = [
-                `Y: ${bird.y.toFixed(3)}`,
-                `Pipe Pair Y: ${0}`,
-                `Bird height: ${(bird.y - groundHeight).toFixed(3)}`,
-                `Inertion value: ${bird.inertia}`,
-                `Ground heigh: ${groundHeight}`,
-                `Height: ${screen.height}px`,
-                `Width: ${screen.width}px`,
-                `Key pressed: ${keyPressed}`,
-                `Game is over: ${gameIsOver}`,
-                `Speed value : ${bird.speed}`,
-                `Score: ${score}`, /*TODO*/
-                `Coins: ${coins}` /*TODO*/
-            ];
-        }
         render();
-    }, 1);
+    }, 0);
 
-    //TODO upNose finish
-    window.addEventListener("keydown", function (e) {
-        keyPressed = e.key;
-        keyPressed = keyPressed.replace(" ", "Space");
-        switch (e.key.toLowerCase()) {
-            case ' ':
-                if (!gameIsOver) {
-                    bird.stopFalling();
-                    birdElem.style.transition = "all 0.25s";
-                    // birdElem.classList.add("upNose");
-                    birdElem.classList.add("upAngle");
-                    birdElem.classList.remove("downAngle");
-                    bird.flyUp();
-                    if (!gameStarted) {
-                        birdElem.classList.remove("floatBird");
-                        threadId = setInterval(() => {
-                            if (!gameIsOver) {
-                                bird.calculatePhsycs();
-                                bird.fallDown();
-                                bird.fallDown();
-                                gameIsOver = bird.isDead();
-                            } else stopGame();
-                        }, 20);
-                        gameStarted = true;
-                    }
-                }
-                break;
-            case "f8":
-                debugModeToggle();
-                break;
+    window.addEventListener("click", function (e) {
+        if (!gameIsOver) {
+            bird.stopFalling();
+            birdElem.style.transition = "all 0.25s";
+            birdElem.classList.add("upAngle");
+            birdElem.classList.remove("downAngle");
+            bird.flyUp();
+            if (!gameStarted) {
+                birdElem.classList.remove("floatBird");
+                threadId = setInterval(() => {
+                    if (!gameIsOver) {
+                        bird.calculatePhsycs();
+                        bird.fallDown();
+                        bird.fallDown();
+                        gameIsOver = bird.isDead();
+                    } else stopGame();
+                }, 20);
+                gameStarted = true;
+            }
         }
     });
 
@@ -229,7 +195,6 @@
         this.style.transition = "all 0.1s";
         if (gameStarted) {
             bird.startFalling();
-            // birdElem.classList.remove("upNose");
             birdElem.classList.remove("upAngle");
             birdElem.classList.add("downAngle");
         }

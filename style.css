@@ -1,15 +1,15 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     color: white;
 }
 
-body{
+body {
     background-color: #1B1B1B;
 }
 
-.container{
+.container {
     height: 100vh;
     width: 100%;
     display: flex;
@@ -17,15 +17,15 @@ body{
     align-items: center;
 }
 
-.window{
+.window {
     height: 720px;
-    width:  480px;
+    width: 480px;
     position: relative;
     overflow: hidden;
     z-index: 0;
 }
 
-.debugOverlay{
+.debugOverlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -42,15 +42,15 @@ body{
     overflow: hidden;
 }
 
-.dContainer{
+.dContainer {
     margin: 20px;
 }
 
-.dContainer p{
+.dContainer p {
     margin: 4px;
 }
 
-.bgImg{
+.bgImg {
     position: absolute;
     bottom: 0;
     height: 100%;
@@ -66,51 +66,55 @@ body{
     animation-timing-function: linear;
 }
 
-.bgPauseAnim{
+.bgPauseAnim {
     animation-play-state: paused;
 }
 
 
-.background{
+
+
+.background {
     position: absolute;
     bottom: 0;
     left: 0;
     height: 720px;
     width: 480px;
-    background-color:#4EC0CA;
+    background-color: #4EC0CA;
 }
 
-.bg1{
+.bg1 {
     left: 0;
     animation-name: moveBackground;
 }
 
-.bg2{
+.bg2 {
     left: 100%;
     animation-name: moveBackground2;
 }
 
-@keyframes moveBackground{
-    from{
+@keyframes moveBackground {
+    from {
         left: 0;
     }
-    to{
+
+    to {
         left: -100%;
     }
 }
 
-@keyframes moveBackground2{
-    from{
+@keyframes moveBackground2 {
+    from {
         left: 100%;
     }
-    to{
+
+    to {
         left: 0%;
     }
 }
 
-#bird{
+#bird {
     bottom: 48%;
-    left: 25%;  
+    left: 25%;
     position: absolute;
     height: 35px;
     width: 50px;
@@ -119,7 +123,7 @@ body{
     transition: all 0.25s;
 }
 
-.pipes{
+.pipes {
     position: absolute;
     left: 0;
     top: 0;
@@ -128,15 +132,17 @@ body{
     z-index: 0;
 }
 
-.pair{
+.pair {
     position: absolute;
-    bottom: 85px; /*center*/
+    bottom: 85px;
+    /*center*/
     height: 100%;
     width: 65px;
-    right: -65px; /*right border*/
+    right: -65px;
+    /*right border*/
 }
 
-.pipe{
+.pipe {
     position: absolute;
     height: 260px;
     width: 100%;
@@ -145,7 +151,7 @@ body{
     background-size: cover;
 }
 
-.pipeMoveing{
+.pipeMoveing {
     animation-name: pipeMoveAnim;
     animation-fill-mode: forwards;
     animation-play-state: running;
@@ -157,53 +163,61 @@ body{
 }
 
 @keyframes pipeMoveAnim {
-    from{
+    from {
         right: -65px;
     }
-    to{
+
+    to {
         right: 480px;
     }
 }
 
-.pipePause{
+.pipePause {
     animation-play-state: paused;
 }
 
 
-.pipeup{
+.pipeup {
     top: 0;
     transform: rotate(180deg);
 }
 
-.pipedown{
+.pipedown {
     bottom: 0;
 }
 
-        /* right: 525px; */
+/* right: 525px; */
 
-.debugMode{
+.debugMode {
     border: 1px solid red;
 }
 
-.floatBird{
-    animation-name: floatingBird; /*название анимации*/
-    animation-duration: .6s; /*длительность анимации*/
-    animation-timing-function: linear; /*тип анимации*/
-    animation-iteration-count: infinite; /*количество повтора анимации*/
-    animation-direction: alternate; /*в какую сторону анимировать от 0 до 100 или наоборот, или от 0 до 100 и обратно*/
-    animation-play-state: running; /*анимация продолжается*/
+.floatBird {
+    animation-name: floatingBird;
+    /*название анимации*/
+    animation-duration: .6s;
+    /*длительность анимации*/
+    animation-timing-function: linear;
+    /*тип анимации*/
+    animation-iteration-count: infinite;
+    /*количество повтора анимации*/
+    animation-direction: alternate;
+    /*в какую сторону анимировать от 0 до 100 или наоборот, или от 0 до 100 и обратно*/
+    animation-play-state: running;
+    /*анимация продолжается*/
 }
 
-@keyframes floatingBird{
-    from{
+@keyframes floatingBird {
+    from {
         bottom: 50%;
     }
-    to{
+
+    to {
         bottom: 47%;
     }
 }
 
-.ground{
+.ground {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -215,7 +229,7 @@ body{
     background-repeat: no-repeat;
 }
 
-.movingGround{
+.movingGround {
     animation-duration: 2s;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
@@ -225,37 +239,39 @@ body{
     animation-play-state: running;
 }
 
-.groundPauseAnim{
+.groundPauseAnim {
     animation-play-state: paused;
 }
 
-.g1{
+.g1 {
     animation-name: moveGround;
 }
 
-.g2{
+.g2 {
     animation-name: moveGround2;
 }
 
-@keyframes moveGround{
-    from{
+@keyframes moveGround {
+    from {
         left: 0;
     }
-    to{
+
+    to {
         left: -590px;
     }
 }
 
-@keyframes moveGround2{
-    from{
+@keyframes moveGround2 {
+    from {
         left: 590px;
     }
-    to{
+
+    to {
         left: 0;
     }
 }
 
-.headstone{
+.headstone {
     position: absolute;
     left: 20%;
     bottom: 85px;
@@ -267,7 +283,7 @@ body{
     background-size: cover;
 }
 
-.headstoneMoveUp{
+.headstoneMoveUp {
     animation-name: growHeadStone;
     animation-timing-function: cubic-bezier(0.620, 0.225, 0.125, 1.650);
     animation-duration: 1.1s;
@@ -277,23 +293,21 @@ body{
     animation-play-state: running;
 }
 
-@keyframes growHeadStone{
-    0%{
+@keyframes growHeadStone {
+    0% {
         bottom: 85px;
     }
-    50%{
+
+    50% {
         bottom: 158px;
     }
-    100%{
+
+    100% {
         bottom: 168px;
     }
 }
 
-.upNose{
-    transform: rotateZ(-25deg);
-}
-
-.upAngle{
+.upAngle {
     animation-name: upBirdAngle;
     animation-timing-function: linear;
     animation-iteration-count: 1;
@@ -302,19 +316,21 @@ body{
     animation-duration: 0.25s;
 }
 
-@keyframes upBirdAngle{
-    0%{
+@keyframes upBirdAngle {
+    0% {
         transform: rotateZ(0deg);
     }
-    50%{
+
+    50% {
         transform: rotateZ(-25deg);
     }
-    100%{
+
+    100% {
         transform: rotateZ(0deg);
     }
 }
 
-.downAngle{
+.downAngle {
     animation-name: downBirdAngle;
     animation-timing-function: linear;
     animation-iteration-count: 1;
@@ -324,11 +340,12 @@ body{
     animation-duration: .4s;
 }
 
-@keyframes downBirdAngle{
-    0%{
+@keyframes downBirdAngle {
+    0% {
         transform: rotateZ(0deg);
     }
-    100%{
+
+    100% {
         transform: rotateZ(90deg);
     }
 }
