@@ -106,12 +106,12 @@
     });
 
 
-    // pipePairs.forEach((p, i) => {
-    //     
-    //     p.onanimationiteration = () => Pipe.randomize(p);
-    //     //p.onanimationend = () => pipeResetBack(p);
-    //     setTimeout(() => Pipe.move(p), (i + 1) * 1000);
-    // });
+    pipeList.forEach((p, i) => {
+
+        p.onanimationiteration = () => p.randomize();
+        p.onanimationend = () => p.pipeReset();
+        setTimeout(() => p.move(p), (i + 1) * 1000);
+    });
 
 
     const bird = new Bird();
