@@ -1,5 +1,6 @@
 (function () {
 
+
     [...document.querySelectorAll(".container, .background, #bird")].forEach((e, i, a) => {
         e.addEventListener("contextmenu", (e) => {
             e.preventDefault();
@@ -9,13 +10,21 @@
 
     class Pipe {
         constructor(elem) {
-            this.pipeY = 85;
+            this.yOffset = 85;
             this.elem = elem;
             this.id = -1;
         }
 
+        get pipeY() {
+            return this.yOffset - rand(-85, 85);
+        }
+
+        get pipeX() {
+            return parseInt(window.getComputedStyle(this.elem).left);
+        }
+
         randomize() {
-            this.elem.style.bottom = `${this.pipeY - rand(-85, 85)}px`;
+            this.elem.style.bottom = `${this.pipeY}px`;
         }
 
         move() {
@@ -30,6 +39,10 @@
         }
 
     }
+    const audioPoint = new Audio("./Assets/Audio/sfx_point.wav");
+    const audioJump = new Audio("./Assets/Audio/sfx_wing.wav");
+    const audioDie = new Audio("./Assets/Audio/sfx_die.wav");
+    const audioHit = new Audio("./Assets/Audio/sfx_hit.wav");
     const birdElem = document.querySelector("#bird");
     const bgImages = [...document.querySelectorAll(".bgImg")];
     const grounds = [...document.querySelectorAll(".ground")];
@@ -48,8 +61,10 @@
     let coins = 0;
     let isDebugMode = true;
 
+
     function Bird() {
         this.y = 0;
+        this.x = 480 / 2;
         this.angle = 0;
         this.inertia = 0;
         this.fallRatio = -9;
@@ -106,9 +121,13 @@
 
 
     pipeList.forEach((p, i) => {
-        p.elem.onanimationstart = () => p.randomize();
+        p.elem.onanimationstart = () => {
+            p.randomize();
+        };
         p.elem.onanimationiteration = () => p.randomize();
-        p.elem.onanimationend = () => p.pipeReset();
+        p.elem.onanimationend = () => {
+            p.pipeReset();
+        };
         p.id = setTimeout(() => p.move(), (i + 1) * 1000);
     });
 
@@ -145,11 +164,11 @@
 
     function render() {
         birdElem.style.bottom = `${bird.y}px`;
+        requestAnimationFrame(render);
     }
 
-    setInterval(() => {
-        render();
-    }, 0);
+    render();
+
 
     function gameHandler(e) {
         if (!gameIsOver) {
@@ -167,7 +186,15 @@
                         bird.calculatePhsycs();
                         bird.fallDown();
                         gameIsOver = bird.isDead();
-                    } else stopGame();
+                    } else {
+                        audioHit.pause();
+                        audioHit.currentTime = 0;
+                        audioHit.play();
+                        audioDie.pause();
+                        audioDie.currentTime = 0;
+                        audioDie.play();
+                        stopGame();
+                    };
                 }, 20);
                 gameStarted = true;
             }
@@ -179,6 +206,13 @@
     }
 
     window.addEventListener("touchstart", gameHandler);
+    window.addEventListener("click", () => {
+        if (!gameIsOver) {
+            audioJump.pause();
+            audioJump.currentTime = 0;
+            audioJump.play(); // TODO
+        }
+    });
 
     birdElem.addEventListener("transitionend", function () {
         this.style.transition = "all 0.1s";
