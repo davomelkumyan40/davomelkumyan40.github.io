@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flappy Birds</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="window">
+            <div class="menu"></div>
+            <div id="debugWindow">
+                <div class="dContainer">
+                </div>
+            </div>
+            <div class="background">
+                <div class="bgImg bg1"></div>
+                <div class="bgImg bg2"></div>
+            </div>
+            <div id="bird" class="floatBird" title="bird hitbox"></div>
+            <div class="pipes">
+                <div class="pair pipeMoveing pipePause">
+                    <div class="pipe pipeup"></div>
+                    <div class="pipe pipedown"></div>
+                </div>
+                <div class="pair pipeMoveing pipePause">
+                    <div class="pipe pipeup"></div>
+                    <div class="pipe pipedown"></div>
+                </div>
+                <!-- <div class="pair pipeMoveing pipePause">
+                    <div class="pipe pipeup"></div>
+                    <div class="pipe pipedown"></div>
+                </div> -->
+                <!-- <div class="pair pipeMoveing pipePause">
+                    <div class="pipe pipeup"></div>
+                    <div class="pipe pipedown"></div>
+                </div> -->
+            </div>
+            <div id="headstone"></div>
+            <div class="ground g1 movingGround"></div>
+            <div class="ground g2 movingGround"></div>
+        </div>
+    </div>
+    <script type="module" src="./game.js"></script>
+    <script type="text/javascript" charset="utf-8" src="./preventContextMenu.js"></script>
+</body>
+
+</html>

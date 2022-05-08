@@ -1,0 +1,334 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+body{
+    background-color: #1B1B1B;
+}
+
+.container{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.window{
+    height: 720px;
+    width:  480px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.debugOverlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    font-weight: 600;
+    height: 40%;
+    width: 50%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.dContainer{
+    margin: 20px;
+}
+
+.dContainer p{
+    margin: 4px;
+}
+
+.bgImg{
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url(./Assets/day_city.png);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: cover;
+    animation-duration: 9.5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-play-state: running;
+    animation-timing-function: linear;
+}
+
+.bgPauseAnim{
+    animation-play-state: paused;
+}
+
+
+.background{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 720px;
+    width: 480px;
+    background-color:#4EC0CA;
+}
+
+.bg1{
+    left: 0;
+    animation-name: moveBackground;
+}
+
+.bg2{
+    left: 100%;
+    animation-name: moveBackground2;
+}
+
+@keyframes moveBackground{
+    from{
+        left: 0;
+    }
+    to{
+        left: -100%;
+    }
+}
+
+@keyframes moveBackground2{
+    from{
+        left: 100%;
+    }
+    to{
+        left: 0%;
+    }
+}
+
+#bird{
+    bottom: 48%;
+    left: 25%;  
+    position: absolute;
+    height: 35px;
+    width: 50px;
+    background: url(./Assets/bird.gif);
+    background-size: cover;
+    transition: all 0.25s;
+}
+
+.pipes{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.pair{
+    position: absolute;
+    bottom: 85px; /*center*/
+    height: 100%;
+    width: 65px;
+    right: -65px; /*right border*/
+}
+
+.pipe{
+    position: absolute;
+    height: 260px;
+    width: 100%;
+    background-image: url(./Assets/day_pipe.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pipeMoveing{
+    animation-name: pipeMoveAnim;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-timing-function: linear;
+    animation-delay: 1s;
+    animation-duration: 2s;
+}
+
+@keyframes pipeMoveAnim {
+    from{
+        right: -65px;
+    }
+    to{
+        right: 480px;
+    }
+}
+
+.pipePause{
+    animation-play-state: paused;
+}
+
+
+.pipeup{
+    top: 0;
+    transform: rotate(180deg);
+}
+
+.pipedown{
+    bottom: 0;
+}
+
+        /* right: 525px; */
+
+.debugMode{
+    border: 1px solid red;
+}
+
+.floatBird{
+    animation-name: floatingBird; /*название анимации*/
+    animation-duration: .6s; /*длительность анимации*/
+    animation-timing-function: linear; /*тип анимации*/
+    animation-iteration-count: infinite; /*количество повтора анимации*/
+    animation-direction: alternate; /*в какую сторону анимировать от 0 до 100 или наоборот, или от 0 до 100 и обратно*/
+    animation-play-state: running; /*анимация продолжается*/
+}
+
+@keyframes floatingBird{
+    from{
+        bottom: 50%;
+    }
+    to{
+        bottom: 47%;
+    }
+}
+
+.ground{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 170px;
+    width: 590px;
+    background-image: url(./Assets/ground.png);
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.movingGround{
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+    animation-play-state: running;
+}
+
+.groundPauseAnim{
+    animation-play-state: paused;
+}
+
+.g1{
+    animation-name: moveGround;
+}
+
+.g2{
+    animation-name: moveGround2;
+}
+
+@keyframes moveGround{
+    from{
+        left: 0;
+    }
+    to{
+        left: -590px;
+    }
+}
+
+@keyframes moveGround2{
+    from{
+        left: 590px;
+    }
+    to{
+        left: 0;
+    }
+}
+
+.headstone{
+    position: absolute;
+    left: 20%;
+    bottom: 85px;
+    height: 80px;
+    width: 80px;
+    background-image: url(./Assets/headstone.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.headstoneMoveUp{
+    animation-name: growHeadStone;
+    animation-timing-function: cubic-bezier(0.620, 0.225, 0.125, 1.650);
+    animation-duration: 1.1s;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes growHeadStone{
+    0%{
+        bottom: 85px;
+    }
+    50%{
+        bottom: 158px;
+    }
+    100%{
+        bottom: 168px;
+    }
+}
+
+.upNose{
+    transform: rotateZ(-25deg);
+}
+
+.upAngle{
+    animation-name: upBirdAngle;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-play-state: running;
+    animation-duration: 0.25s;
+}
+
+@keyframes upBirdAngle{
+    0%{
+        transform: rotateZ(0deg);
+    }
+    50%{
+        transform: rotateZ(-25deg);
+    }
+    100%{
+        transform: rotateZ(0deg);
+    }
+}
+
+.downAngle{
+    animation-name: downBirdAngle;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-play-state: running;
+    animation-fill-mode: forwards;
+    animation-duration: .4s;
+}
+
+@keyframes downBirdAngle{
+    0%{
+        transform: rotateZ(0deg);
+    }
+    100%{
+        transform: rotateZ(90deg);
+    }
+}
