@@ -38,7 +38,6 @@ export default class Designer {
             .addSprite({
                 position: new Vector3(0, 0),
                 size: new Size(engine.graphics.width, engine.graphics.height),
-                offset: new Vector3(engine.graphics.width, engine.graphics.height),
                 fill: {
                     color: "black",
                     src: "./Assets/background.png"
@@ -49,9 +48,7 @@ export default class Designer {
         obj = new GameObject(new Vector3(0, 0, 1))
             .addSprite({
                 position: new Vector3(0, 400),
-                size: new Size(engine.graphics.width / 4 - 100, engine.graphics.width),
-                offset: new Vector3(0, 0),
-                cutSize: new Vector3(120, 500),
+                size: new Size(400, 500),
                 fill: {
                     color: "black",
                     src: "./Assets/shop.png"
@@ -62,10 +59,8 @@ export default class Designer {
 
         obj = new GameObject(new Vector3(0, 0, 1))
             .addSprite({
-                position: new Vector3(1430, 400),
-                size: new Size(engine.graphics.width / 4 - 100, engine.graphics.width),
-                offset: new Vector3(0, 0),
-                cutSize: new Vector3(120, 500),
+                position: new Vector3(1150, 400),
+                size: new Size(400, 500),
                 fill: {
                     color: "black",
                     src: "./Assets/shop.png"
@@ -77,20 +72,19 @@ export default class Designer {
         obj = new GameObject(new Vector3(300, 600, 2), "Hero", "Hero")
             .addSprite({
                 position: new Vector3(300, 600),
-                size: new Size(340, 800),
-                offset: new Vector3(90, 75),
-                cutSize: new Vector3(75, 200),
+                size: new Size(75, 190),
                 fill: {
-                    src: "/Assets/hero/idle.png",
-                    color: "red"
-                }
+                    src: "/Assets/hero/Idle.png",
+                },
+                flipX: false,
+                flipY: false
             })
             .addRigidBody({
                 bodyType: BodyType.dynamic
             })
             .addBoxCollider({
                 offset: new Vector3(0, 0),
-                size: new Size(75, 215)
+                size: new Size(75, 190)
             })
             .build();
         const dynamic = new Dynamic(obj);

@@ -20,14 +20,13 @@ export default class GameObject extends CuEntity {
         engine.gameObjects.push(this);
     }
 
-    addSprite({ position, size, fill, offset, cutOffset, cutSize }) {
+    addSprite({ position, size, fill, flipX, flipY }) {
         this.sprite = new Sprite({
             position: position,
             size: size,
             fill: fill,
-            offset: offset,
-            cutOffset,
-            cutSize
+            flipX: flipX,
+            flipY: flipY,
         });
         return this;
     }
