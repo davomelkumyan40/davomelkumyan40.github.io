@@ -41,7 +41,7 @@ export default class Designer {
                 offset: new Vector3(engine.graphics.width, engine.graphics.height),
                 fill: {
                     color: "black",
-                    src: "davomelkumyan40.github.io/Assets/background.png"
+                    src: "https://davomelkumyan40.github.io/Assets/background.png"
                 }
             }).build();
         const background = new Canvas(obj);
@@ -68,7 +68,7 @@ export default class Designer {
                 cutSize: new Vector3(120, 500),
                 fill: {
                     color: "black",
-                    src: "davomelkumyan40.github.io/Assets/shop.png"
+                    src: "https://davomelkumyan40.github.io/Assets/shop.png"
                 }
             }).build();
         const background3 = new Canvas(obj);
@@ -81,7 +81,7 @@ export default class Designer {
                 offset: new Vector3(90, 75),
                 cutSize: new Vector3(75, 200),
                 fill: {
-                    src: "davomelkumyan40.github.io/Assets/hero/Idle.png",
+                    src: "https://davomelkumyan40.github.io/Assets/hero/Idle.png",
                     color: "red"
                 }
             })
